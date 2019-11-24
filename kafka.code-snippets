@@ -97,7 +97,7 @@
 
 	"properties-file":{
 		"prefix": "properties",
-		"body":"prperties-file(<\"${path}\">)"
+		"body":"properties-file(<\"${path}\">)"
 	 },
 
 	"send-time-zone":{
@@ -116,7 +116,7 @@
 	 },
 
 	"time-zone":{
-		"prefix": "throttle",
+		"prefix": "time",
 		"body":"throttle(<\"${string}\">)"
 	},
 
