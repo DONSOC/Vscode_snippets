@@ -25,8 +25,13 @@
 	},
 
 	"bootstr-ser": {
-		"prefix": "bootsrtap",
-		"body":"bootstrap-servers/kafka-bootstrap-servers(<\"${string}\">)",
+		"prefix": "bootstrap",
+		"body":"bootstrap-servers(<\"${string}\">)",
+	},
+
+	"kafka-bootstr-ser": {
+		"prefix": "bootstrap",
+		"body":"kafka-bootstrap-servers(<\"${string}\">)",
 	},
 
 	"clientlibdir": {
@@ -161,9 +166,14 @@
 		"body":"workers(<${number}>)"
 	 },
 
-	 "config-option-string-string/num":{
+	 "config-string-string/num":{
 		"prefix": "config",
-		"body":"config/option(\n<\"${string}\">(<{$string_or_number}>)\n)"
+		"body":"config(\n<\"${string}\">(<{$string_or_number}>)\n)"
+	 },
+
+	 "option-string-string/num":{
+		"prefix": "option",
+		"body":"option(\n<\"${string}\">(<{$string_or_number}>)\n)"
 	 },
 
 	 "key-id-string":{
