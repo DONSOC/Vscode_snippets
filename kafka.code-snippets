@@ -34,19 +34,35 @@
 		"body":"client-lib-dir(<\"${string}\">)",
 	},
 
-	"config-option": {
+	"config": {
 		"prefix": "config",
-		"body":" config/option($1)",
+		"body":" config($0)",
 	},
 
-	"confopt2_with_arrow": {
-		"prefix": "config",
-		"body":"config/option(<\"${string}\"> <\"${arrow}\"> <${string_or_number}>)",
+	"option": {
+		"prefix": "option",
+		"body":"option($0)",
 	},
 
-	"confopt2_without_arrow": {
+
+	"conf2_with_arrow": {
 		"prefix": "config",
-		"body":"config/option(<\"${string}\"> <{$string_or_number}>)",
+		"body":"config(<\"${string}\"> <\"${arrow}\"> <${string_or_number}>)",
+	},
+
+	"opt2_with_arrow": {
+		"prefix": "option",
+		"body":"option(<\"${string}\"> <\"${arrow}\"> <${string_or_number}>)",
+	},
+
+	"conf2_without_arrow": {
+		"prefix": "config",
+		"body":"config(<\"${string}\"> <{$string_or_number}>)",
+	},
+
+	"opt2_without_arrow": {
+		"prefix": "option",
+		"body":"option(<\"${string}\"> <{$string_or_number}>)",
 	},
 
 	 "flushtimeonreload":{
@@ -71,7 +87,12 @@
 
 	"local-time-zone":{
 		"prefix": "local",
-		"body":"local-time-zone/time-zone(<\"${string}\">)"
+		"body":"local-time-zone(<\"${string}\">)"
+	 },
+
+	 "time-with-string":{
+		"prefix": "time",
+		"body":"time-zone(<\"${string}\">)"
 	 },
 
 	"log-fifo":{
@@ -79,9 +100,14 @@
 		"body":"log-fifo-size(<${number}>)"
 	 },
 
-	"message/-without_id":{
+	"message_without_id":{
 		"prefix": "message",
-		"body":"message/template(<\"${string}\">)"
+		"body":"message(<\"${string}\">)"
+	 },
+
+	 "template-without_id":{
+		"prefix": "template",
+		"body":"template(<\"${string}\">)"
 	 },
 
 	"on-error":{
@@ -145,8 +171,13 @@
 		"body":"key(\n<${identifier}>(<\"${string}\">)\n)"
 	 },
 
-	 "message/template-with_id":{
+	 "message-with_id":{
 		"prefix": "message",
-		"body":"message/template(\n<${identifier}>(<\"${string}\">)\n)"
+		"body":"message(\n<${identifier}>(<\"${string}\">)\n)"
+	 },
+
+	 "template-with_id":{
+		"prefix": "template",
+		"body":"template(\n<${identifier}>(<\"${string}\">)\n)"
 	 },
 }
