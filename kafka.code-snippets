@@ -1,193 +1,60 @@
-//{
-//	// Place your global snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
-//	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
-//	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
-//	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
-//	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
-//	// Placeholders with the same ids are connected.
-//	// Example:
-//	// "Print to console": {
-//	// 	"scope": "javascript,typescript",
-//	// 	"prefix": "log",
-//	// 	"body": [
-//	// 		"console.log('$1');",
-//	// 		"$2"
-//	// 	],
-//	// 	"description": "Log output to console"
-//	// }
-//}
+// The logic behind this:
+//  * All options have a namespace (kafka-dest:: in this case), this will solve the upcoming option name
+//    collision between different drivers (e.g. kafka-c and http...). This only comes up with the prefix,
+//    the body stays the same.
+//  * Each option has all the other options in the namespace listed after the option itself, with the "choice"
+//    syntax: ${2|\t,kafka-dest::bootstrap-servers,...|}, so the user can choose all the other options after
+//    setting one
+//
+// The usage is the following:
+//  1. type destination
+//  2. TAB, so it gets filled
+//  3. choose an option, e.g.: kafka-dest::bootstrap-servers
+//  4. TAB, ctrl+space, then TAB to fill
+//  5. set the "string"
+//  6. TAB, to jump to choose the next option
+//  7. choose another option
+//  8. step 4 repeats
 
 {
 	"destkafka": {
 		"prefix": "destination",
-		"body":[ "destination kafka-c(\n$0",
-		")"],
+		"body":[
+			"destination kafka-c(",
+			"\t${1|kafka-dest::bootstrap-servers,kafka-dest::client-lib-dir,kafka-dest::flush-timeout-on-reload,kafka-dest::flush-timeout-on-shutdown|}",
+			")"
+		],
 	},
 
 	"bootstr-ser": {
-		"prefix": "bootstrap",
-		"body":"bootstrap-servers(<\"${string}\">)",
-	},
-
-	"kafka-bootstr-ser": {
-		"prefix": "bootstrap",
-		"body":"kafka-bootstrap-servers(<\"${string}\">)",
+		"prefix": "kafka-dest::bootstrap-servers",
+		"body": [
+			"bootstrap-servers(\"${1:string}\")",
+			"${2|\t,kafka-dest::bootstrap-servers,kafka-dest::client-lib-dir,kafka-dest::flush-timeout-on-reload,kafka-dest::flush-timeout-on-shutdown|}"
+		]
 	},
 
 	"clientlibdir": {
-		"prefix": "client",
-		"body":"client-lib-dir(<\"${string}\">)",
-	},
-
-	"config": {
-		"prefix": "config",
-		"body":" config($0)",
-	},
-
-	"option": {
-		"prefix": "option",
-		"body":"option($0)",
-	},
-
-
-	"conf2_with_arrow": {
-		"prefix": "config",
-		"body":"config(<\"${string}\"> <\"${arrow}\"> <${string_or_number}>)",
-	},
-
-	"opt2_with_arrow": {
-		"prefix": "option",
-		"body":"option(<\"${string}\"> <\"${arrow}\"> <${string_or_number}>)",
-	},
-
-	"conf2_without_arrow": {
-		"prefix": "config",
-		"body":"config(<\"${string}\"> <{$string_or_number}>)",
-	},
-
-	"opt2_without_arrow": {
-		"prefix": "option",
-		"body":"option(<\"${string}\"> <{$string_or_number}>)",
+		"prefix": "kafka-dest::client-lib-dir",
+		"body": [
+			"client-lib-dir(\"${1:string}\")",
+			"${2|\t,kafka-dest::bootstrap-servers,kafka-dest::client-lib-dir,kafka-dest::flush-timeout-on-reload,kafka-dest::flush-timeout-on-shutdown|}",
+		]
 	},
 
 	 "flushtimeonreload":{
-		"prefix": "flush",
-		"body":"flush-timeout-on-reload(<${number}>)"
-	 },
-
-	 "flushtimeonshutdown":{
-		"prefix": "flush",
-		"body":"flush-timeout-on-shutdown(<${number}>)"
-	 },
-
-	 "fracdigits":{
-		"prefix": "frac",
-		"body":"frac-digits(<${number}>)"
-	 },
-
-	 "key":{
-		"prefix": "key",
-		"body":"key(<\"${string}\">)"
-	 },
-
-	"local-time-zone":{
-		"prefix": "local",
-		"body":"local-time-zone(<\"${string}\">)"
-	 },
-
-	 "time-with-string":{
-		"prefix": "time",
-		"body":"time-zone(<\"${string}\">)"
-	 },
-
-	"log-fifo":{
-		"prefix": "log",
-		"body":"log-fifo-size(<${number}>)"
-	 },
-
-	"message_without_id":{
-		"prefix": "message",
-		"body":"message(<\"${string}\">)"
-	 },
-
-	 "template-without_id":{
-		"prefix": "template",
-		"body":"template(<\"${string}\">)"
-	 },
-
-	"on-error":{
-		"prefix": "on",
-		"body":"on-error(<\"${string}\">)"
-	 },
-
-	
-	"persist-name":{
-		"prefix": "persist",
-		"body":"persist-name(<\"${string}\">)"
-	 },
-
-	"properties-file":{
-		"prefix": "properties",
-		"body":"properties-file(<\"${path}\">)"
-	 },
-
-	"send-time-zone":{
-		"prefix": "send",
-		"body":"send-time-zone(<\"${string}\">)"
-	 },
-
-	"sync-send":{
-		"prefix": "sync-send",
-		"body":"sync-send(<\"${yesno}\">)"
-	 },
-
-	"throttle":{
-		"prefix": "throttle",
-		"body":"throttle(<${number}>)"
-	 },
-
-	"time-zone":{
-		"prefix": "time",
-		"body":"throttle(<\"${string}\">)"
+		"prefix": "kafka-dest::flush-timeout-on-reload",
+		"body": [
+			"flush-timeout-on-reload(${1:number})",
+			"${2|\t,kafka-dest::bootstrap-servers,kafka-dest::client-lib-dir,kafka-dest::flush-timeout-on-reload,kafka-dest::flush-timeout-on-shutdown|}"
+		]
 	},
 
-	"topic":{
-		"prefix": "topic",
-		"body":"topic(<\"${string}\">)"
-	 },
-
-	 "ts-format":{
-		"prefix": "ts-format",
-		"body":"ts-format(<\"${string}\">)"
-	 },
-
-	 "workers":{
-		"prefix": "workers",
-		"body":"workers(<${number}>)"
-	 },
-
-	 "config-string-string/num":{
-		"prefix": "config",
-		"body":"config(\n<\"${string}\">(<{$string_or_number}>)\n)"
-	 },
-
-	 "option-string-string/num":{
-		"prefix": "option",
-		"body":"option(\n<\"${string}\">(<{$string_or_number}>)\n)"
-	 },
-
-	 "key-id-string":{
-		"prefix": "key",
-		"body":"key(\n<${identifier}>(<\"${string}\">)\n)"
-	 },
-
-	 "message-with_id":{
-		"prefix": "message",
-		"body":"message(\n<${identifier}>(<\"${string}\">)\n)"
-	 },
-
-	 "template-with_id":{
-		"prefix": "template",
-		"body":"template(\n<${identifier}>(<\"${string}\">)\n)"
-	 },
+	 "flushtimeonshutdown":{
+		"prefix": "kafka-dest::flush-timeout-on-shutdown",
+		"body": [
+			"flush-timeout-on-shutdown(${1:number})",
+			"${2|\t,kafka-dest::bootstrap-servers,kafka-dest::client-lib-dir,kafka-dest::flush-timeout-on-reload,kafka-dest::flush-timeout-on-shutdown|}"
+		]
+	}
 }
